@@ -6,14 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/flutterdeveloper2025-tech/sample-app.git',
-                    credentialsId: '022'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'No build needed for HTML site'
+                    url: 'https://github.com/flutterdeveloper2025-tech/sample-app.git'
             }
         }
 
@@ -21,11 +14,11 @@ pipeline {
             steps {
                 sshPublisher(
                     publishers: [sshPublisherDesc(
-                        configName: '022',
+                        configName: 'server-ssh',
                         transfers: [sshTransfer(
                             sourceFiles: '**/*',
                             removePrefix: '',
-                            remoteDirectory: '/var/www/html/sample-app'
+                            remoteDirectory: 'sample-app'
                         )],
                         usePromotionTimestamp: false
                     )]
