@@ -5,16 +5,21 @@ pipeline {
         DEPLOY_PATH = "/var/www/html"
     }
 
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+
     stages {
 
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                url: 'https://github.com/flutterdeveloper2025-tech/sample-app.git'
+                    url: 'https://github.com/flutterdeveloper2025-tech/sample-app.git'
             }
         }
 
-        stage('Deploy using rsync') {
+        stage('Deploy to Nginx (rsync)') {
             steps {
                 sh '''
                 sudo rsync -av --delete \
@@ -28,7 +33,7 @@ pipeline {
 
     post {
         success {
-            echo "✅ Deployed using rsync successfully"
+            echo "✅ Deployment completed successfully"
         }
         failure {
             echo "❌ Deployment failed"
