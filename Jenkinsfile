@@ -111,10 +111,18 @@ pipeline {
                 sudo rsync -av --delete $BACKUP/ $PROD_DIR/
             fi
             '''
+            // Email notification on failure
+            mail to: 'flutterdeveloper2025@gmail.com',
+                 subject: "Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Build failed. Check Jenkins console: ${env.BUILD_URL}"
         }
 
         success {
             echo "✅ Deployment completed successfully"
+            // Email notification on success
+            mail to: 'flutterdeveloper2025@gmail.com',
+                 subject: "Jenkins Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Build succeeded. Check Jenkins console: ${env.BUILD_URL}"
         }
     }
 }
