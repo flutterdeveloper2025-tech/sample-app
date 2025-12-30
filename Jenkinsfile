@@ -90,7 +90,7 @@ pipeline {
                 sh '''
                 echo "Running smoke test on PROD..."
 
-                STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://20.205.120.32/prod)
+                STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://20.205.120.32/prod/)
 
                 if [ "$STATUS" != "200" ]; then
                     echo "❌ Smoke test failed. HTTP status: $STATUS"
