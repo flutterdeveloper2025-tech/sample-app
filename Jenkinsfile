@@ -81,6 +81,26 @@ pipeline {
                 '''
             }
         }
+
+        stage('Smoke Test (PROD)') {
+            when {
+                expression { params.ENV == 'prod' }
+            }
+            steps {
+                sh '''
+                echo "Running smoke test on PROD..."
+
+                STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://20.205.120.32/prod)
+
+                if [ "$STATUS" != "200" ]; then
+                    echo "❌ Smoke test failed. HTTP status: $STATUS"
+                    exit 1
+                fi
+
+                echo "✅ Smoke test passed"
+                '''
+            }
+        }
     }
 
     post {
