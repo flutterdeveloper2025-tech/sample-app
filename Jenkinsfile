@@ -19,7 +19,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'docker-dev',
                     url: 'https://github.com/flutterdeveloper2025-tech/sample-app.git'
             }
         }
